@@ -14,3 +14,4 @@
 **/*.fasta.gz.fai
 **/*.fasta.gz.gzi
 build-old*
+tmp.23.txt
