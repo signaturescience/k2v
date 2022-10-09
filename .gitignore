@@ -12,4 +12,5 @@
 **/*.fasta.fai
 **/*.fasta.gz
 **/*.fasta.gz.fai
+**/*.fasta.gz.gzi
 build-old*
