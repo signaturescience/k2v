@@ -17,4 +17,4 @@ else
 fi
 
 Rscript /scripts/k2tsv.R $INFILE
-bcftools convert --tsv2vcf /tmp/tmp.23.txt --fasta-ref /assets/human_g1k_v37.fasta.gz --samples $SAMPLEID | bcftools sort -Oz -o $OUTVCF
+{ bcftools convert --tsv2vcf /tmp/tmp.23.txt --fasta-ref /assets/human_g1k_v37.fasta.gz --samples $SAMPLEID | bcftools sort -Oz -o $OUTVCF && tabix -f $OUTVCF; } > /dev/null 2>&1
