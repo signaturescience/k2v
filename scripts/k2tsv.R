@@ -5,7 +5,7 @@ if (interactive()) {
 } else {
   args = commandArgs(trailingOnly=TRUE)
   infile <- args[1]
-  k <- "/assets/kintelligence.alleles.csv"
+  kfile <- "/assets/kintelligence.alleles.csv"
   outfile <- "/tmp/tmp.23.txt"
 }
 if (!file.exists(infile)) stop(paste("File doesn't exist:", infile))
