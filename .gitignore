@@ -8,6 +8,7 @@
 .Rproj.user
 .RData
 .Ruserdata
+internal/
 **/*.fasta
 **/*.fasta.fai
 **/*.fasta.gz
