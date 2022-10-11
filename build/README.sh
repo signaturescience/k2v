@@ -85,14 +85,18 @@ cp kintelligence.alleles.csv ../assets
 
 wget https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG004_NA24143_mother/latest/GRCh37/HG004_GRCh37_1_22_v4.2.1_benchmark.vcf.gz
 wget https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG004_NA24143_mother/latest/GRCh37/HG004_GRCh37_1_22_v4.2.1_benchmark.vcf.gz.tbi
+wget https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG004_NA24143_mother/latest/GRCh37/HG004_GRCh37_1_22_v4.2.1_benchmark_noinconsistent.bed
 
 bcftools merge -R kintelligence.sites.vcf.gz kintelligence.sites.vcf.gz HG004_GRCh37_1_22_v4.2.1_benchmark.vcf.gz \
   | perl -pe 's/\t\.\t\.$/\tGT\t.\/./g' \
   | bcftools +setGT -- -t. -n0 \
   | bcftools view -T kintelligence.sites.vcf.gz \
   | bcftools annotate -x INFO,^FORMAT/GT \
+  | bcftools view -T HG004_GRCh37_1_22_v4.2.1_benchmark_noinconsistent.bed \
   | bcftools sort -Oz -o HG004.giab.vcf.gz
 tabix -f HG004.giab.vcf.gz
+bcftools index -s HG004.giab.vcf.gz
+bcftools index -n HG004.giab.vcf.gz
 mv HG004.giab.vcf.gz* ../testdata
 
 
@@ -100,13 +104,17 @@ mv HG004.giab.vcf.gz* ../testdata
 
 wget https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/latest/GRCh37/HG002_GRCh37_1_22_v4.2.1_benchmark.vcf.gz
 wget https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/latest/GRCh37/HG002_GRCh37_1_22_v4.2.1_benchmark.vcf.gz.tbi
+wget https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/release/AshkenazimTrio/HG002_NA24385_son/latest/GRCh37/HG002_GRCh37_1_22_v4.2.1_benchmark_noinconsistent.bed
 
 bcftools merge -R kintelligence.sites.vcf.gz kintelligence.sites.vcf.gz HG002_GRCh37_1_22_v4.2.1_benchmark.vcf.gz \
   | perl -pe 's/\t\.\t\.$/\tGT\t.\/./g' \
   | bcftools +setGT -- -t. -n0 \
   | bcftools view -T kintelligence.sites.vcf.gz \
   | bcftools annotate -x INFO,^FORMAT/GT \
+  | bcftools view -T HG002_GRCh37_1_22_v4.2.1_benchmark_noinconsistent.bed \
   | bcftools sort -Oz -o HG002.giab.vcf.gz
 tabix -f HG002.giab.vcf.gz
+bcftools index -s HG002.giab.vcf.gz
+bcftools index -n HG002.giab.vcf.gz
 mv HG002.giab.vcf.gz* ../testdata
 
