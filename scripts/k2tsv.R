@@ -20,8 +20,10 @@ d$gt[grep("\\.", d$gt)] <- NA
 d$gt[d$gt=="1/0"] <- "0/1"
 if (!identical(sort(unique(na.omit(d$gt))), c("0/0", "0/1", "1/1"))) stop("Genotypes aren't 0/0, 0/1, 1/1.")
 d <- merge(d, k)
+d$gt[d$chr=="Y" & d$gt=="0/0"] <- "0"
+d$gt[d$chr=="Y" & d$gt=="1/1"] <- "1"
 
-tgt <- Vectorize(function(gt, ref, alt) switch(as.character(gt), `NA`=NA, "0/0"=paste0(ref, ref), "0/1"=paste0(ref, alt), "1/1"=paste0(alt,alt)))
+tgt <- Vectorize(function(gt, ref, alt) switch(as.character(gt), `NA`=NA, "0"=ref, "1"=alt, "0/0"=paste0(ref, ref), "0/1"=paste0(ref, alt), "1/1"=paste0(alt,alt)))
 d$tgt <- unlist(tgt(d$gt, d$ref, d$alt))
 
 d23 <- d[,c("rsid", "chr", "pos","tgt")]
