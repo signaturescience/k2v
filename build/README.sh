@@ -122,6 +122,7 @@ tabix -f HG004.giab.vcf.gz
 bcftools index -s HG004.giab.vcf.gz
 bcftools index -n HG004.giab.vcf.gz
 mv HG004.giab.vcf.gz* ../testdata
+docker run --rm -v $(pwd):$(pwd) -w $(pwd) -u $(id -u):$(id -g) sigsci/k2v testdata/HG004.SnpResult.txt
 
 
 ## HG002
@@ -141,4 +142,5 @@ tabix -f HG002.giab.vcf.gz
 bcftools index -s HG002.giab.vcf.gz
 bcftools index -n HG002.giab.vcf.gz
 mv HG002.giab.vcf.gz* ../testdata
+docker run --rm -v $(pwd):$(pwd) -w $(pwd) -u $(id -u):$(id -g) sigsci/k2v testdata/HG002.SnpResult.txt
 
