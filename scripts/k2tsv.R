@@ -1,5 +1,5 @@
 if (interactive()) {
-  infile <- here::here("exampledata/NA24385.SnpResult.txt")
+  infile <- here::here("testdata/HG002.SnpResult.txt")
   kfile <- here::here("assets/kintelligence.alleles.csv")
   outfile <- here::here("tmp.23.txt")
 } else {
