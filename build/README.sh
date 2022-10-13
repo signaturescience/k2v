@@ -20,19 +20,29 @@ bcftools view -R kintelligence.sites.tsv.gz gnomad.genomes.r2.1.1.sites.vcf.bgz 
   | bcftools view -v snps -m2 -M2 \
   | bcftools view -i'ID=@kintelligence.rsids.txt' \
   | bcftools annotate -x ^INFO/AF \
-  | bcftools sort -Oz -o kintelligence.sites.vcf.gz
-tabix -f kintelligence.sites.vcf.gz
+  | bcftools sort -Oz -o kintelligence.autosomal.vcf.gz
+tabix -f kintelligence.autosomal.vcf.gz
 
-# # Y chromosome sites
-# wget https://storage.googleapis.com/gcp-public-data--gnomad/release/3.1.2/vcf/genomes/gnomad.genomes.v3.1.2.sites.chrY.vcf.bgz
-# wget https://storage.googleapis.com/gcp-public-data--gnomad/release/3.1.2/vcf/genomes/gnomad.genomes.v3.1.2.sites.chrY.vcf.bgz.tbi
-# CrossMap.py ...
-# bcftools view -R kintelligence.sites.tsv.gz gnomad.exomes.r2.1.1.sites.Y.vcf.bgz \
-#   | bcftools view -v snps -m2 -M2 \
-#   | bcftools view -i'ID=@kintelligence.rsids.txt' \
-#   | bcftools annotate -x ^INFO/AF \
-#   | bcftools sort -Oz -o kintelligence.Y.vcf.gz
-# tabix -f kintelligence.Y.vcf.gz
+# Get GnomAD Y chromosome sites on GRCh38 and crossmap
+wget https://storage.googleapis.com/gcp-public-data--gnomad/release/3.1.2/vcf/genomes/gnomad.genomes.v3.1.2.sites.chrY.vcf.bgz
+wget https://storage.googleapis.com/gcp-public-data--gnomad/release/3.1.2/vcf/genomes/gnomad.genomes.v3.1.2.sites.chrY.vcf.bgz.tbi
+bcftools annotate -x ^INFO/AF gnomad.genomes.v3.1.2.sites.chrY.vcf.bgz | bcftools view -m2 -M2 -v snps | bcftools sort -Oz -o tmp1.y.vcf.gz && tabix -f tmp1.y.vcf.gz
+wget ftp://hgdownload.soe.ucsc.edu/goldenPath/hg38/liftOver/hg38ToHg19.over.chain.gz
+conda activate crossmap
+CrossMap.py vcf --chromid s hg38ToHg19.over.chain.gz tmp1.y.vcf.gz ../assets/human_g1k_v37.fasta.gz tmp2.y.vcf
+bcftools view -m2 -M2 -v snps tmp2.y.vcf | bcftools sort -Oz -o tmp3.y.vcf.gz && tabix -f tmp3.y.vcf.gz
+bcftools view -R kintelligence.sites.tsv.gz tmp3.y.vcf.gz \
+  | bcftools view -v snps -m2 -M2 \
+  | bcftools view -i'ID=@kintelligence.rsids.txt' \
+  | bcftools sort -Oz -o kintelligence.Y.vcf.gz
+tabix -f kintelligence.Y.vcf.gz
+bcftools index -s kintelligence.Y.vcf.gz
+rm -f tmp*
+
+bcftools concat kintelligence.autosomal.vcf.gz kintelligence.Y.vcf.gz | bcftools sort -Oz -o kintelligence.sites.vcf.gz
+tabix -f kintelligence.sites.vcf.gz
+bcftools index -s kintelligence.sites.vcf.gz
+bcftools index -n kintelligence.sites.vcf.gz
 
 # Create temporaty table that needs deduplication
 bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%AF\n' kintelligence.sites.vcf.gz > tmp

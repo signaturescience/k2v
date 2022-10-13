@@ -1,3 +1,4 @@
 *.bgz
 *.bgz.tbi
 *_benchmark*
+*chain*
