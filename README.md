@@ -75,3 +75,7 @@ git clone https://github.com/signaturescience/k2v
 cd k2v
 docker build --no-cache -t k2v .
 ```
+
+### Count comparison
+
+Please see [build/comparison.md](build/comparison.md) for details on sites not captured by k2v.
