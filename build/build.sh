@@ -48,13 +48,13 @@ bcftools index -n kintelligence.sites.vcf.gz
 bcftools query -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%AF\n' kintelligence.sites.vcf.gz > tmp
 
 # Deduplicate keeping the more common alt allele
-Rscript dedupe.R && rm -f tmp
+Rscript build-create-alleles-table.R
 
 # Copy to assets
-cp kintelligence.rsids.txt ../assets
-cp kintelligence.alleles.csv ../assets
-cp kintelligence.sites.vcf.gz ../assets
-cp kintelligence.sites.vcf.gz.tbi ../assets
+\cp -f kintelligence.alleles.csv ../assets
+
+# Clean up
+rm -f tmp
 
 # # Get the dbSNP 155 VCF
 # wget https://ftp.ncbi.nih.gov/snp/latest_release/VCF/GCF_000001405.25.gz
