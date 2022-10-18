@@ -43,17 +43,16 @@ bcftools query -f '%ID\t%CHROM\t%POS\t[%TGT]\n' HG002.vcf.gz | sed -s 's/[\/\|]/
 ```
 
 ```
-rs6690515  1 1447325	GG
-rs28635343 1 1560103	CC
-rs16824588 1 1900232	TT
-rs424079   1 2071340	CA
-rs2055204  1 2280661	GG
-rs4648384  1 2756621	CA
-rs16823228 1 2853759	AA
-rs2817178  1 3047252	CC
-rs731031   1 3072692	TT
-rs2455107  1 3180158	TT
-
+rs6690515	1	1447325	GG
+rs28635343	1	1560103	CC
+rs16824588	1	1900232	TT
+rs424079	1	2071340	CA
+rs2055204	1	2280661	GG
+rs4648384	1	2756621	CA
+rs16823228	1	2853759	AA
+rs2817178	1	3047252	CC
+rs731031	1	3072692	TT
+rs2455107	1	3180158	TT
 ```
 
 Note that only 10,229 of the 10,230 sites on the Kintelligence are genotyped. `k2v` is currently limited to SNPs only, and cannot capture the one insertion that Kintelligence assays (rs796296176).
